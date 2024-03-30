@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { Auth } from "./types";
 import { prisma } from "./db";
 import { googleCallbackMiddleware } from "./utils";
+import { User } from "../../prisma/generated/client";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -42,24 +43,62 @@ export const authOptions: AuthOptions = {
         if (!auth || !email) {
           return null;
         }
-        const isUserExist = await prisma.user.findUnique({
-          where: { email: email },
-        });
 
-        if (auth === Auth.SIGN_UP && !!name && !isUserExist) {
+        //  sigin up
+        if (auth === Auth.SIGN_UP) {
           console.log("sign up start");
-          const newUser = await prisma.user.create({
-            data: { email: email, name: name, password: password },
-          });
-          console.log("new User ");
-          return newUser;
-        }
 
-        const user = await prisma.user.findUnique({
-          where: { email: email, password: password },
-        });
-        if (user) {
-          return { id: user.id, email: user.email, name: user.name };
+          const res = await fetch(`${configs.authBaseUrl}/sign-up`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "Application/json",
+            },
+            body: JSON.stringify({ email, name, password }),
+          });
+
+          if (!res.ok) {
+            console.log(
+              "sign-up wrong ",
+              res.status,
+              res.statusText,
+              await res.json()
+            );
+            return null;
+          }
+          const newUser = (await res.json()) as User;
+          console.log("!congrate user is registreated now in credential", {
+            newUser,
+          });
+          return null;
+        } else if (auth === Auth.SIGN_IN) {
+          console.log("sign in start");
+
+          const res = await fetch(`${configs.authBaseUrl}/sign-in`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "Application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!res.ok) {
+            console.log(
+              "sign-in wrong ",
+              res.status,
+              res.statusText,
+              await res.json()
+            );
+            return null;
+          }
+          const validUser = (await res.json()) as User;
+          console.log("!congrate user is loging... now in credential", {
+            validUser,
+          });
+          return {
+            id: validUser.id,
+            email: validUser.email,
+            name: validUser.name,
+          };
         }
         return null;
         //end
@@ -71,8 +110,9 @@ export const authOptions: AuthOptions = {
     signOut: "/signup",
   },
   callbacks: {
+    // todo - signin with google
     async session({ session, token, trigger, user, newSession }) {
-      console.log("sssss");
+      console.log("SIGNIN WITH GOOGLE >>>>>>>>>>>>>>>>>>>>>>>>>");
 
       await googleCallbackMiddleware(session);
 

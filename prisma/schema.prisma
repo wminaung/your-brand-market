@@ -8,39 +8,93 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
-//  directUrl = env("POSTGRES_URL_NON_POOLING")
+/////////////
 
-//////////////////////////////////////////////////////////
+model Profile {
+  id  String  @id @default(uuid())
+  bio String?
 
-model User {
-  id String @id @default(uuid())
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
 
-  email    String  @unique
-  name     String?
-  password String?
-  image    String?
-  isAdmin  Boolean @default(false)
-
-  Products Product[]
+  @@map("profile")
 }
 
-model ProductAsset {
-  id String @id @default(uuid())
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  name     String?
+  username String  @unique
+  image    String?
+  password String
 
-  url String
+  authType AuthType @default(ADMIN)
 
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId String?
+  Profile  Profile?
+  Reviews  Review[]
+  Products Product[]
+  Blogs    Blog[]
+
+  @@map("user")
+}
+
+model Blog {
+  id      String  @id @default(uuid())
+  image   String?
+  title   String  @unique
+  content String
+
+  User   User?  @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  @@map("blog")
 }
 
 model Product {
-  id String @id @default(uuid())
+  id            String @id @default(uuid())
+  name          String @unique
+  description   String
+  price         Float  @default(0.0)
+  discountPrice Float? @default(0.0)
 
-  userId      String
-  name        String  @unique
-  description String? @default("ecolife desc")
+  Reviews Review[]
+  User    User?    @relation(fields: [userId], references: [id])
+  userId  String   @map("user_id")
 
-  ProductAssets ProductAsset[]
+  @@map("product")
+}
 
-  User User @relation(fields: [userId], references: [id])
+model Review {
+  id      String  @id @default(uuid())
+  title   String?
+  content String?
+  rating  Int     @default(0) // 0.0 to 5 // 0.5 - 1.0 - 1.5
+
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String   @map("user_id")
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String   @map("product_id")
+
+  @@map("review")
+}
+
+enum AuthType {
+  ADMIN
+  USER
+}
+
+model EmailSubscriber {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  isActive Boolean @default(true) @map("is_active")
+
+  @@map("email_subscriber")
+}
+
+model DumpData {
+  id       String  @id @default(uuid())
+  isDelete Boolean @map("is_delete")
+  userId   String  @map("user_id")
+
+  @@map("dump_data")
 }

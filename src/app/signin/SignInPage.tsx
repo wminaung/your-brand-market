@@ -65,8 +65,6 @@ function ColorSchemeToggle(props: IconButtonProps) {
 }
 
 export default function SignInPage() {
-  const session = useSession();
-
   const handleGoogleSignIn = async () => {
     await signIn("google");
   };
