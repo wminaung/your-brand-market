@@ -2,9 +2,10 @@
 import { Box } from "@mui/material";
 import GridLayout, { GridItemType } from "./GridLayout";
 import { useEffect, useState } from "react";
-import { ProductAsset } from "../../prisma/generated/client";
-import OurBlogCard from "./landing/OurBlogCard";
+import OurBlogCard from "./blogs/BlogCard";
 import ProductCard from "./products/ProductCard";
+import { Product } from "../../prisma/generated/client";
+import { configs } from "@/lib/configs";
 
 // const gridItems: GridItemType[] = [
 //   {
@@ -30,32 +31,34 @@ import ProductCard from "./products/ProductCard";
 // ];
 
 const AllProducts = () => {
-  const [productAssets, setProductAssets] = useState<ProductAsset[]>();
+  const [products, setProducts] = useState<Product[]>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:3000/api/asset");
-      const data = (await res.json()) as ProductAsset[];
-      setProductAssets(data);
+      const res = await fetch(`${configs.apiBaseUrl}/products`);
+      const data = (await res.json()) as Product[];
+      console.log({ products: data });
+
+      setProducts(data);
     };
     fetchData();
   }, []);
 
-  if (!productAssets) {
+  if (!products) {
     return null;
   }
 
-  const createGridItems = (productAssets: ProductAsset[]): GridItemType[] => {
-    return productAssets.map((pa) => ({
-      id: pa.id,
-      node: <ProductCard productAsset={pa} />,
+  const createGridItems = (products: Product[]): GridItemType[] => {
+    return products.map((product) => ({
+      id: product.id,
+      node: <ProductCard product={product} />,
     }));
   };
 
   return (
     <>
       <GridLayout
-        gridItems={createGridItems(productAssets)}
+        gridItems={createGridItems(products)}
         gridProps={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 3 }}
         itemsProps={{ elevation: 0 }}
         sx={{ height: 200 }}

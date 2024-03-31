@@ -20,7 +20,7 @@ const pages = [
   {
     id: 1,
     name: "Products",
-    route: "/product",
+    route: "/products",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const pages = [
   {
     id: 3,
     name: "Blog",
-    route: "/blog",
+    route: "/blogs",
   },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];

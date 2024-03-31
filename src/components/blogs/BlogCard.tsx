@@ -8,30 +8,27 @@ import { Google } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { Avatar, Button, CardActions, CardMedia } from "@mui/material";
-import HoverRating from "./HoverRating";
+import { Blog } from "../../../prisma/generated/client";
 
-export interface OurBlogCardType {
-  id?: number;
-  imageUrl: string;
-  title: string;
-  description: string;
+export interface BlogCardType {
+  blog: Blog;
+  isLanding?: boolean;
 }
-export default function OurBlogCard({
-  imageUrl,
-  description,
-  title,
-}: OurBlogCardType) {
+export default function BlogCard({ blog, isLanding }: BlogCardType) {
+  const { content, id, imageUrl, title, userId } = blog;
+
   return (
     <Card
       sx={{
         minWidth: 200,
         pt: 4,
         height: "100%",
+
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
-      elevation={0}
+      elevation={1}
     >
       <Box
         sx={{
@@ -48,7 +45,7 @@ export default function OurBlogCard({
             width: "80%",
             minHeight: "120px",
           }}
-          image={imageUrl}
+          image={imageUrl || "/assets/i2.png"}
         />
         <CardContent
           sx={{
@@ -56,6 +53,7 @@ export default function OurBlogCard({
             flexDirection: "column",
             justifyContent: "space-evenly",
             alignItems: "center",
+            pb: !!isLanding ? 8 : 0,
           }}
         >
           <Box
@@ -67,12 +65,37 @@ export default function OurBlogCard({
               alignItems: "center",
             }}
           >
-            <Typography variant="h5" color={"#2BAE7A"} py={2} component="div">
+            <Typography
+              variant="h5"
+              color={"#2BAE7A"}
+              component="div"
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 1,
+                textJustify: "inter-character",
+
+                maxWidth: "100%",
+              }}
+            >
               {title ? title : "Diverse Eco-Friendly Products"}
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {description
-                ? description
+            <Typography
+              sx={{
+                mb: 1.5,
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3,
+                textJustify: "inter-character",
+                maxWidth: "100%",
+              }}
+              color="text.secondary"
+            >
+              {content
+                ? content
                 : `Explore eco-friendly products, from sustainable fashion to green
             home essentials, for a variety of environmentally responsible
             options.`}

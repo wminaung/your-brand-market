@@ -9,21 +9,21 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { Button, CardActions, CardMedia } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { Prisma, ProductAsset } from "../../../prisma/generated/client";
+import { Prisma, Product } from "../../../prisma/generated/client";
 
 export interface ProductCardType {
-  productAsset: ProductAsset;
+  product: Product;
 }
-export default function ProductCard({
-  productAsset: { url, id },
-}: ProductCardType) {
+export default function ProductCard({ product }: ProductCardType) {
+  const { id, description, imageUrl, discountPrice, name, price, userId } =
+    product;
+
   const router = useRouter();
 
   const handleDetails = () => {
-    router.push(`/product/${id}`);
+    router.push(`/products/${id}`);
   };
-  const name = "hello";
-  const description = "ok i am description";
+
   return (
     <Card sx={{ height: "inherit", border: "1px solid #2BAE7A" }} elevation={1}>
       <CardContent
@@ -36,7 +36,7 @@ export default function ProductCard({
       >
         <CardMedia
           sx={{ width: "100%", height: 140 }}
-          image={url}
+          image={imageUrl || "/assets/i1.png"}
           title={name}
         />
         <Box

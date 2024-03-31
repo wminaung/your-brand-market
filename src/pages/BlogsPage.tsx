@@ -2,7 +2,7 @@
 
 import Ourblogs from "@/components/landing/OurblogsSection";
 
-const BlogPage = () => {
+const BlogsPage = () => {
   return (
     <>
       <Ourblogs />
@@ -10,4 +10,4 @@ const BlogPage = () => {
   );
 };
 
-export default BlogPage;
+export default BlogsPage;

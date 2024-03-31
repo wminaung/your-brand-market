@@ -2,7 +2,7 @@
 
 import AllProducts from "@/components/AllProducts";
 
-const ProductPage = () => {
+const ProductsPage = () => {
   return (
     <>
       <AllProducts />
@@ -10,4 +10,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default ProductsPage;
