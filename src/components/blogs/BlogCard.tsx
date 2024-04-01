@@ -53,54 +53,42 @@ export default function BlogCard({ blog, isLanding }: BlogCardType) {
             flexDirection: "column",
             justifyContent: "space-evenly",
             alignItems: "center",
-            pb: !!isLanding ? 8 : 0,
           }}
         >
-          <Box
+          <Typography
+            variant="h5"
+            color={"#2BAE7A"}
+            component="div"
+            title={title}
             sx={{
-              height: "50%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 1,
+              maxWidth: "100%",
             }}
           >
-            <Typography
-              variant="h5"
-              color={"#2BAE7A"}
-              component="div"
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 1,
-                textJustify: "inter-character",
-
-                maxWidth: "100%",
-              }}
-            >
-              {title ? title : "Diverse Eco-Friendly Products"}
-            </Typography>
-            <Typography
-              sx={{
-                mb: 1.5,
-                overflow: "hidden",
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 3,
-                textJustify: "inter-character",
-                maxWidth: "100%",
-              }}
-              color="text.secondary"
-            >
-              {content
-                ? content
-                : `Explore eco-friendly products, from sustainable fashion to green
+            {title ? title : "Diverse Eco-Friendly Products"}
+          </Typography>
+          <Typography
+            aria-label={content}
+            sx={{
+              mb: 1.5,
+              overflow: "hidden",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
+              maxWidth: "100%",
+            }}
+            color="text.secondary"
+          >
+            {content
+              ? content
+              : `Explore eco-friendly products, from sustainable fashion to green
             home essentials, for a variety of environmentally responsible
             options.`}
-            </Typography>
-          </Box>
+          </Typography>
         </CardContent>
         <CardActions>
           <Button

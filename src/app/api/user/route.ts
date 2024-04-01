@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Prisma, User } from "../../../../prisma/generated/client";
 
 import { parse } from "url";
-import { userService } from "@/services/user.service";
+import { userService } from "@/services/fetchDataFromApi";
 
 export const GET = async (req: NextRequest) => {
   // Run inside async function

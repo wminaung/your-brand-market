@@ -1,7 +1,7 @@
 import { Session } from "next-auth";
 import { Prisma, User } from "../../prisma/generated/client";
 import { prisma } from "./db";
-import { userService } from "@/services/user.service";
+import { userService } from "@/services/fetchDataFromApi";
 import { configs } from "./configs";
 
 // export const getProductAssets = async (): Promise<ProductAsset[]> => {

@@ -1,20 +1,26 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import Navbar from "./Navbar";
 import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
+import Providers from "./Providers";
+import { AdminContext } from "./admin/AdminContext";
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
 
   const session = useSession();
-  console.log(session);
-  const isAuthRoute: boolean = pathName !== "/signin" && pathName !== "/signup";
+
+  const router = useRouter();
+
+  const isAuthRoute: boolean = pathName === "/signin" || pathName === "/signup";
+  const isAdminRoute: boolean = !!pathName?.includes("/admin");
+  console.log("s :", session?.data?.user, "pn: ", pathName, isAdminRoute);
 
   return (
     <>
-      {isAuthRoute ? (
+      {!isAuthRoute && !isAdminRoute ? (
         <>
           <Navbar />
           <Box
@@ -22,7 +28,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
             id={"app-bar-with-responsive-menu"}
           ></Box>
         </>
-      ) : null}
+      ) : null}{" "}
       {children}
     </>
   );
