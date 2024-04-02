@@ -1,7 +1,7 @@
-import CartPage from "@/pages/CartPage";
+import CartView from "@/views/CartView";
 
 const Cart_Page = () => {
-  return <CartPage />;
+  return <CartView />;
 };
 
-export default Cart_Page;
+export default CartView;

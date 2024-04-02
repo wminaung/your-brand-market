@@ -1,6 +1,6 @@
-import ProductByIdPage from "@/pages/ProductByIdPage";
+import ProductByIdPage from "@/views/ProductByIdView";
 
-const ProductsById_Page = ({ params }: { params: { slug: string } }) => {
+const ProductByIdView = ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <ProductByIdPage />
@@ -8,4 +8,4 @@ const ProductsById_Page = ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default ProductsById_Page;
+export default ProductByIdView;

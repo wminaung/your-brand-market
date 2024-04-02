@@ -2,7 +2,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 
-const CartPage = () => {
+const CartView = () => {
   const args = JSON.stringify({
     orderBy: { id: "asc" },
     select: { email: false },
@@ -21,4 +21,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default CartView;

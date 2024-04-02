@@ -6,7 +6,7 @@ import { Product } from "../../prisma/generated/client";
 import { useEffect, useState } from "react";
 import { configs } from "@/lib/configs";
 
-const ProductByIdPage = () => {
+const ProductByIdView = () => {
   const [product, setProduct] = useState<Product>();
 
   const { id } = useParams() as { id: string };
@@ -35,4 +35,4 @@ const ProductByIdPage = () => {
   );
 };
 
-export default ProductByIdPage;
+export default ProductByIdView;

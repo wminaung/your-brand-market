@@ -7,6 +7,12 @@ import { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import Providers from "./Providers";
 import { AdminContext } from "./admin/AdminContext";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const myTheme = createTheme({
+  // Set up your custom MUI theme here
+});
+
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
 
@@ -19,7 +25,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   console.log("s :", session?.data?.user, "pn: ", pathName, isAdminRoute);
 
   return (
-    <>
+    <ThemeProvider theme={myTheme}>
       {!isAuthRoute && !isAdminRoute ? (
         <>
           <Navbar />
@@ -30,7 +36,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
         </>
       ) : null}{" "}
       {children}
-    </>
+    </ThemeProvider>
   );
 };
 
